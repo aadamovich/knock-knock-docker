@@ -1,10 +1,8 @@
-version: 2
+version: 2.1
 jobs:
   build:
-
-    environment:
-      TERM: dumb
-
+    docker:
+      - image: circleci/golang:1.13-alpine
     steps:
       - checkout
       - setup_remote_docker
