@@ -10,4 +10,9 @@ jobs:
     steps:
       - checkout
       - run: docker build -f Dockerfile.server .
-
+workflows:
+  version: 2
+  my_flow:
+    jobs:
+      - build-client
+      - build-server
