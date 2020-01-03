@@ -1,9 +1,13 @@
 version: 2.1
 jobs:
-  build:
+  build-client:
     machine: true
     steps:
       - checkout
       - run: docker build -f Dockerfile.client .
+  build-server:
+    machine: true
+    steps:
+      - checkout
       - run: docker build -f Dockerfile.server .
 
