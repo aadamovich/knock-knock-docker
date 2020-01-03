@@ -16,3 +16,10 @@ workflows:
     jobs:
       - build-client
       - build-server
+  my_flow2:
+    jobs:
+      - build-server
+      - build-client:
+          requires:
+            - build-server
+        
