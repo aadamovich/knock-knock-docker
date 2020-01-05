@@ -9,6 +9,7 @@ commands:
     steps:
       - run: docker build -f << parameters.file >> .
 
+
 jobs:
   build-client:
     machine: true
@@ -40,4 +41,14 @@ workflows:
       - build-client:
           requires:
             - build-server
-        
+  my_flow3:
+    jobs:
+      - build-client
+      - build-server
+      - approve-deployment:
+          type: approve
+      - deploy-to-prod:
+          requires:
+            - build-server
+            - build-client
+            - approve-deployment
