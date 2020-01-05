@@ -1,15 +1,32 @@
 version: 2.1
+
+commands:
+  build-docker-image:
+    paremeters:
+      file:
+        type: string
+        default: Dockerfile
+    steps:
+      - run: docker build -f << parameters.file >> .
+
 jobs:
   build-client:
     machine: true
     steps:
       - checkout
-      - run: docker build -f Dockerfile.client .
+      - build-docker-image: { file: "Dockerfile.client" }
   build-server:
     machine: true
     steps:
       - checkout
-      - run: docker build -f Dockerfile.server .
+      - build-docker-image:
+          file: Dockerfile.server
+  deploy-to-prod:
+    steps:
+      - checkout
+      - run: echo Yes
+
+
 workflows:
   version: 2
   my_flow:
