@@ -22,6 +22,7 @@ jobs:
       - build-docker-image:
           file: Dockerfile.server
   deploy-to-prod:
+    machine: true
     steps:
       - checkout
       - run: echo Yes
