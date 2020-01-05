@@ -46,7 +46,10 @@ workflows:
       - build-client
       - build-server
       - approve-deployment:
-          type: approve
+          type: approval
+          requires:
+            - build-server
+            - build-client
       - deploy-to-prod:
           requires:
             - build-server
