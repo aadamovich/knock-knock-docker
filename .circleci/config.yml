@@ -27,6 +27,11 @@ jobs:
     steps:
       - checkout
       - run: echo Yes
+  debug:
+    machine: true
+    steps:
+      - checkout
+      - run: echo debug
 
 
 workflows:
