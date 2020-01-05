@@ -52,6 +52,4 @@ workflows:
             - build-client
       - deploy-to-prod:
           requires:
-            - build-server
-            - build-client
             - approve-deployment
