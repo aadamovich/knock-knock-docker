@@ -28,8 +28,10 @@ commands:
     steps:
       - run:
           name: Cancel current workflow 
+          environment:
+            API: "https://circleci.com/api/v2"
           command: |
-            curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel
+            curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST ${API}/workflow/${CIRCLE_WORKFLOW_ID}/cancel
             sleep 20
 
 jobs:
@@ -70,13 +72,13 @@ jobs:
 workflows:
   version: 2
 
-  parallel_jobs_one_cancelled:
-    jobs:
-      - build-client
-      - cancel-client
-      - build-server:
-          requires:
-            - build-client
+#   parallel_jobs_one_cancelled:
+#     jobs:
+#       - build-client
+#       - cancel-client
+#       - build-server:
+#           requires:
+#             - build-client
 
   sequential_jobs_first_cancelled:
     jobs:
@@ -85,30 +87,30 @@ workflows:
           requires:
             - cancel-client
 
-  sequential_jobs_last_cancelled:
-    jobs:
-      - build-server
-      - cancel-client:
-          requires:
-            - build-server
+#   sequential_jobs_last_cancelled:
+#     jobs:
+#       - build-server
+#       - cancel-client:
+#           requires:
+#             - build-server
 
-  sequential_jobs:
-    jobs:
-      - build-server
-      - build-client:
-          requires:
-            - build-server
+#   sequential_jobs:
+#     jobs:
+#       - build-server
+#       - build-client:
+#           requires:
+#             - build-server
 
-  sequential_jobs_with_approval:
-    jobs:
-      - build-client
-      - approve-deployment:
-          type: approval
-          requires:
-            - build-client
-      - deploy-to-prod:
-          requires:
-            - approve-deployment
+#   sequential_jobs_with_approval:
+#     jobs:
+#       - build-client
+#       - approve-deployment:
+#           type: approval
+#           requires:
+#             - build-client
+#       - deploy-to-prod:
+#           requires:
+#             - approve-deployment
 
   cancel_flow:
     jobs:
