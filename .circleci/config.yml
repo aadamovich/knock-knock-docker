@@ -28,7 +28,9 @@ commands:
     steps:
       - run:
           name: Cancel current workflow 
-          command: "curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel"
+          command: |
+            curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel
+            sleep 20
 
 jobs:
   build-client:
@@ -70,8 +72,11 @@ workflows:
 
   parallel_jobs_one_cancelled:
     jobs:
+      - build-client
       - cancel-client
       - build-server
+          requires:
+            - build-client
 
   sequential_jobs_first_cancelled:
     jobs:
