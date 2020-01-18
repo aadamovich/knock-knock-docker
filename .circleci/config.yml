@@ -22,7 +22,8 @@ commands:
             API: https://circleci.com/api/v2
             CURL: "curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json'"
           command: |
-            ${CURL} ${API}/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r ".items[] | select(.id == \"${CIRCLE_WORKFLOW_JOB_ID}\") | .job_number" | tee .job_number
+            ${CURL} ${API}/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r . | tee .jobs.json
+            cat .jobs.json | jq -r ".items[] | select(.id == \"${CIRCLE_WORKFLOW_JOB_ID}\") | .job_number" | tee .job_number
             ${CURL} -X POST ${API}/project/github/aadamovich/knock-knock-docker/job/$(cat .job_number)/cancel
 
   cancel_workflow:
@@ -34,7 +35,7 @@ commands:
       - run:
           name: Cancel current workflow 
           environment:
-            API: https://circleci.com/api/v2/
+            API: https://circleci.com/api/v2
             CURL: "curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json'"
           command: | 
             echo ${CURL} -X POST ${API}/workflow/${CIRCLE_WORKFLOW_ID}/cancel
