@@ -21,6 +21,9 @@ jobs:
       - run: "curl -q -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r \".items[] | select(.id == \\\"${CIRCLE_WORKFLOW_JOB_ID}\\\") | .job_number\" | tee .job_number"
       - run: "export CIRCLE_JOB_NUMBER=$(cat .job_number)"
       - run: "curl -q -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}/cancel"
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB}/cancel"
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job/${CIRCLE_JOB_NUMBER}/cancel"
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job/${CIRCLE_JOB}/cancel"
       - build-docker-image: { file: "Dockerfile.client" }
   build-server:
     machine: true
