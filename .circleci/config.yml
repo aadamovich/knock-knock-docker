@@ -22,6 +22,7 @@ jobs:
       - run: "cat .job_number"
       - run: "export CIRCLE_JOB_NUMBER=$(cat .job_number)"
       - run: "curl -v -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}/cancel"
+      - run: "curl -v -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/project/gh/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}/cancel"
       - build-docker-image: { file: "Dockerfile.client" }
   build-server:
     machine: true
