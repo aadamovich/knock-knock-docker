@@ -74,7 +74,7 @@ workflows:
     jobs:
       - build-client
       - cancel-client
-      - build-server
+      - build-server:
           requires:
             - build-client
 
