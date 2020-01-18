@@ -15,7 +15,7 @@ jobs:
     machine: true
     steps:
       - run: env
-      - run: curl -u 86416d94aa07268d317987e6f878eb5ab5e5536a: -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker -H 'Accept: application/json'
+      - run: "curl -u 86416d94aa07268d317987e6f878eb5ab5e5536a: -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker -H 'Accept: application/json'"
       - checkout
       - build-docker-image: { file: "Dockerfile.client" }
   build-server:
