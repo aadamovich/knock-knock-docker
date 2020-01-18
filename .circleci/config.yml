@@ -15,10 +15,11 @@ jobs:
     machine: true
     steps:
       - run: env
-      - run: "curl -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker -H 'Accept: application/json'"
-      - run: "curl -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r ."
-      - run: "curl -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r \".items[] | select(.id == \\\"${CIRCLE_WORKFLOW_JOB_ID}\\\") | .job_number\""
-      # - run: "curl -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_WORKFLOW_JOB_ID}/cancel -H 'Accept: application/json'"
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker -H 'Accept: application/json'"
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r ."
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r \".items[] | select(.id == \\\"${CIRCLE_WORKFLOW_JOB_ID}\\\") | .job_number\" | tee .job_number"
+      - run: "export CIRCLE_JOB_NUMBER=$(cat .job_number)"
+      - run: "curl -q -u ${CIRCLE_TOKEN}: -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}/cancel -H 'Accept: application/json'"
       - checkout
       - build-docker-image: { file: "Dockerfile.client" }
   build-server:
