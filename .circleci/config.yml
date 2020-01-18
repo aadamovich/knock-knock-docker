@@ -16,7 +16,7 @@ jobs:
     steps:
       - checkout
       - run: env
-      - run: sleep 20
+      - run: sleep 20000
       - run: "curl -v -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker"
       - run: "curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r ."
       # - run: "curl -v -L -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel"
