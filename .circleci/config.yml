@@ -67,17 +67,34 @@ jobs:
 
 workflows:
   version: 2
-  my_flow:
+
+  parallel_jobs_one_cancelled:
     jobs:
       - cancel-client
       - build-server
-  my_flow2:
+
+  sequential_jobs_first_cancelled:
+    jobs:
+      - cancel-client
+      - build-server
+          requires:
+            - cancel-client
+
+  sequential_jobs_last_cancelled:
+    jobs:
+      - build-server
+      - cancel-client
+          requires:
+            - build-server
+
+  sequential_jobs:
     jobs:
       - build-server
       - build-client:
           requires:
             - build-server
-  my_flow3:
+
+  sequential_jobs_with_approval:
     jobs:
       - build-client
       - approve-deployment:
@@ -87,7 +104,8 @@ workflows:
       - deploy-to-prod:
           requires:
             - approve-deployment
-  my_flow4:
+
+  cancel_flow:
     jobs:
       - cancel-flow
 
