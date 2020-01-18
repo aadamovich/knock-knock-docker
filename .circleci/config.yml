@@ -82,7 +82,7 @@ workflows:
       - approve-deployment:
           type: approval
           requires:
-            - build-server
+            - build-client
       - deploy-to-prod:
           requires:
             - approve-deployment
