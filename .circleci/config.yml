@@ -76,14 +76,14 @@ workflows:
   sequential_jobs_first_cancelled:
     jobs:
       - cancel-client
-      - build-server
+      - build-server:
           requires:
             - cancel-client
 
   sequential_jobs_last_cancelled:
     jobs:
       - build-server
-      - cancel-client
+      - cancel-client:
           requires:
             - build-server
 
