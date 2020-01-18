@@ -31,9 +31,9 @@ commands:
           name: Cancel current workflow 
           environment:
             API: "https://circleci.com/api/v2"
-            CURL: "curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json'"
+            CURL: "curl -s -H 'Accept: application/json'"
           command: |
-            ${CURL} -X POST ${API}/workflow/${CIRCLE_WORKFLOW_ID}/cancel
+            ${CURL} -u ${CIRCLE_TOKEN}: -X POST ${API}/workflow/${CIRCLE_WORKFLOW_ID}/cancel
             sleep 20
 
 jobs:
