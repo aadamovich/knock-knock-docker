@@ -21,7 +21,7 @@ jobs:
       - run: "curl -s -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job | jq -r \".items[] | select(.id == \\\"${CIRCLE_WORKFLOW_JOB_ID}\\\") | .job_number\" | tee .job_number"
       - run: "cat .job_number"
       - run: "export CIRCLE_JOB_NUMBER=$(cat .job_number)"
-      - run: "curl -v -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}"
+      - run: "curl -vL -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X GET https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}"
       - run: "curl -v -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/project/github/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}/cancel"
       - run: "curl -v -u ${CIRCLE_TOKEN}: -H 'Accept: application/json' -X POST https://circleci.com/api/v2/project/gh/aadamovich/knock-knock-docker/job/${CIRCLE_JOB_NUMBER}/cancel"
       - build-docker-image: { file: "Dockerfile.client" }
@@ -48,22 +48,23 @@ workflows:
   my_flow:
     jobs:
       - build-client
-      - build-server
-  my_flow2:
-    jobs:
-      - build-server
-      - build-client:
-          requires:
-            - build-server
-  my_flow3:
-    jobs:
-      - build-client
-      - build-server
-      - approve-deployment:
-          type: approval
-          requires:
-            - build-server
-            - build-client
-      - deploy-to-prod:
-          requires:
-            - approve-deployment
+#       - build-server
+#   my_flow2:
+#     jobs:
+#       - build-server
+#       - build-client:
+#           requires:
+#             - build-server
+
+#   my_flow3:
+#     jobs:
+#       - build-client
+#       - build-server
+#       - approve-deployment:
+#           type: approval
+#           requires:
+#             - build-server
+#             - build-client
+#       - deploy-to-prod:
+#           requires:
+#             - approve-deployment
